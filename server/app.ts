@@ -3,6 +3,7 @@ import bodyParser from 'body-parser'
 import cors from 'cors';
 
 import { LISTEN_PORT } from './config';
+import Routes from './Routes'
 
 const app = express();
 
@@ -13,9 +14,7 @@ app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.get('/', (req, res) => {
-    res.send('The server is working!');
-});
+Routes(app)
 
 app.listen(LISTEN_PORT, () => {
     console.log(`SPC Server running at ${LISTEN_PORT}...`);
