@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Inter, Pixelify_Sans } from 'next/font/google';
 import './globals.css';
 import { Captain, Navigation } from '@/components';
 import { MAIN_HEIGHT, MAIN_WIDTH } from '@/const/layout';
+import { AppProvider } from '@/context/AppProvider';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'], variable: '--font-latin' });
+const pixelify_sans = Pixelify_Sans({ subsets: ['latin'], variable: '--font-pixelify_sans' });
 
 export const metadata: Metadata = {
 	title: 'Create Next App',
@@ -18,12 +20,16 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className={`h-screen w-screen flex flex-wrap bg-gray ${inter.className}`}>
-				<Captain />
-				<Navigation />
-				<main className="p-5 bg-gray" style={{ height: MAIN_HEIGHT, width: MAIN_WIDTH }}>
-					{children}
-				</main>
+			<body
+				className={`${inter.variable} ${pixelify_sans.variable} h-screen w-screen flex flex-wrap bg-gray font-inter`}
+			>
+				<AppProvider>
+					<Captain />
+					<Navigation />
+					<main className="py-5 pr-5" style={{ height: MAIN_HEIGHT, width: MAIN_WIDTH }}>
+						{children}
+					</main>
+				</AppProvider>
 			</body>
 		</html>
 	);

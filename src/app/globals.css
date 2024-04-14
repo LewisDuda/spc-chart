@@ -3,10 +3,84 @@
 @tailwind utilities;
 
 :root {
-  --captain-height: 5rem;
-  --captain-width: 100%;
-  --navigation-height: calc(100% - var(--captain-height));
-  --navigation-width: 6rem;
-  --main-height: calc(100% - var(--captain-height));
-  --main-width: calc(100% -  var(--navigation-width));
+	--captain-height: 5rem;
+	--captain-width: 100%;
+	--navigation-height: calc(100% - var(--captain-height));
+	--navigation-width: 6rem;
+	--main-height: calc(100% - var(--captain-height));
+	--main-width: calc(100% - var(--navigation-width));
+}
+
+@layer components {
+	.btn-submit {
+		@apply tracking-widest bg-primary-background text-primary-text hover:bg-secondary-background hover:text-secondary-text disabled:bg-gray disabled:text-black font-pixelify_sans;
+	}
+	.btn-cancel {
+		@apply rounded-xl tracking-widest bg-primary-background text-primary-text opacity-25 hover:bg-secondary-background hover:text-secondary-text font-pixelify_sans;
+	}
+	.btn-reset {
+		@apply  tracking-widest text-black text-opacity-30 font-bold border-2 border-gray border-solid disabled:bg-gray disabled:bg-opacity-45 font-inter;
+	}
+	.btn-small-size {
+		@apply h-8 w-12 text-xs rounded-md;
+	}
+	.btn-medium-size {
+		@apply h-12 w-20 text-base rounded-xl;
+	}
+	.btn-large-size {
+		@apply h-16 w-28 text-xl rounded-2xl;
+	}
+	.tooltipTitle {
+		@apply  w-max flex items-center justify-center p-0.5 text-sm text-center;
+	}
+}
+
+.notistack-MuiContent-success {
+	@apply bg-success-background text-success-text !important;
+}
+
+.notistack-MuiContent-error {
+	@apply bg-danger-background text-danger-text !important;
+}
+
+.MuiCheckbox-root {
+	@apply p-1.5 text-checkbox-border-color hover:bg-checkbox-hover-bg;
+}
+
+.CheckboxOfAll {
+	@apply p-1.5 rounded-none text-checkbox-border-color hover:bg-checkbox-hover-bg
+}
+
+#CheckboxOfAll-Menu,
+#CheckboxOfAll-Menu > .MuiTooltip-tooltip {
+	@apply bg-gray bg-opacity-100 text-black p-0 !important;
+}
+
+.Mui-checked,
+.MuiCheckbox-indeterminate {
+	@apply text-secondary-background !important;
+}
+
+.Mui-checked.Mui-disabled {
+	@apply text-secondary-background opacity-45 !important;
+}
+
+.MuiTable-root{
+	@apply rounded-t-md
+}
+
+.MuiTableCell-head {
+	@apply h-16 bg-table-header-bg;
+}
+
+.MuiTableRow-root.Custom-Selected{
+	@apply bg-table-selected-bg !important;
+}
+
+.MuiTableRow-root.Custom-Hovered {
+	@apply bg-table-header-bg;
+}
+
+.MuiBadge-badge {
+	@apply bg-secondary-background text-secondary-text
 }

@@ -29,9 +29,9 @@ const Post = (req: Request, res: Response) => {
 		!req.body.toolName ||
 		!req.body.chartName ||
 		!req.body.yAxialTitle ||
-		!req.body.maxSpec ||
-		!req.body.minSpec ||
-		!req.body.target
+		isNaN(req.body.maxSpec) ||
+		isNaN(req.body.minSpec) ||
+		isNaN(req.body.target)
 	) {
 		console.log(`POST: \\chartsDefinitions; Necessary fields are empty. IP: ${ip};`);
 		return res.status(400).send({ msg: 'Data format incorrect' });

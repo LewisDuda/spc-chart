@@ -11,7 +11,7 @@ const Navigation = () => {
 	const pathName = usePathname();
 	return (
 		<div
-			className="flex flex-col justify-center items-center gap-10 bg-secondary-background rounded-r-xl"
+			className="flex flex-col justify-center items-center gap-10"
 			style={{ height: NAVIGATION_HEIGHT, width: NAVIGATION_WIDTH }}
 		>
 			{ROUTES.map(({ path, title, icon }, index) => (
@@ -20,8 +20,8 @@ const Navigation = () => {
 					key={index}
 					className={
 						pathName === path
-							? 'h-12 w-12 flex justify-center items-center rounded-full bg-primary-background text-white'
-							: 'h-12 w-12 flex justify-center items-center rounded-full bg-gray text-primary-text hover:text-success-background'
+							? 'h-12 w-12 flex justify-center items-center rounded-full bg-primary-background text-primary-text'
+							: 'h-12 w-12 flex justify-center items-center rounded-full bg-white text-primary-background hover:bg-secondary-background hover:text-secondary-text'
 					}
 				>
 					<Tooltip
