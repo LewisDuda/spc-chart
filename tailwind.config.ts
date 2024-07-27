@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss';
+import { fontFamily } from 'tailwindcss/defaultTheme';
 
 const config: Config = {
 	content: [
@@ -9,28 +10,43 @@ const config: Config = {
 	theme: {
 		colors: {
 			transparent: 'transparent',
-			white: '#ffffff',
-			gray: '#F1F0E8',
+			white: '#FFFFFF',
+			black: '#000000',
+			gray: '#F1F2F6',
 			primary: {
-				background: '#96B6C5',
-				text: '#3E444A',
+				background: '#1C54E3',
+				text: '#FFFFFF',
 			},
 			secondary: {
-				background: '#EEE0C9',
-				text: '#4C6973',
+				background: '#F9CA24',
+				text: '#2c3e50',
 			},
 			danger: {
-				background: '#8C3B3B',
-				text: '#ffffff',
+				background: '#C94D49',
+				text: '#FFFFFF',
 			},
 			success: {
-				background: '#A1C49C',
-				text: '#333333',
+				background: '#39853D',
+				text: '#FFFFFF',
 			},
 			information: {
-				background: '#B3A8C4',
-				text: '#000066',
+				background: '#9D5AB8',
+				text: '#FFFFFF',
 			},
+			table: {
+				'header-bg': '#F1F2F6',
+				'footer-bg': '#FFFFFF',
+				'hover-bg': '#F3F6FE',
+				'selected-bg': '#FEFAE9',
+			},
+			checkbox: {
+				'border-color': 'gray',
+				'hover-bg': '#FEFAE9',
+			},
+		},
+		fontFamily: {
+			inter: ['var(--font-latin)', ...fontFamily.sans],
+			pixelify_sans: ['var(--font-pixelify_sans)', ...fontFamily.sans],
 		},
 		extend: {
 			backgroundImage: {

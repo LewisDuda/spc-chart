@@ -12,7 +12,7 @@ const pixelify = Pixelify_Sans({ subsets: ['latin'] });
 const Captain = () => {
 	return (
 		<header
-			className={`flex items-center justify-between text-3xl p-4 bg-gray ${pixelify.className}`}
+			className={`flex items-center justify-between text-3xl p-4 ${pixelify.className}`}
 			style={{ height: CAPTAIN_HEIGHT, width: CAPTAIN_WIDTH }}
 		>
 			<div className="cursor-pointer uppercase">SPC Chart</div>
