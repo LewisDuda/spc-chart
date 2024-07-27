@@ -7,17 +7,19 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { usePopper } from '@/hooks';
 
 interface CheckboxOfAllProps {
+	isItemsEmpty: boolean;
+	isError: boolean;
 	isSelectedPageOfAll: boolean;
 	isSelectedAll: boolean;
 	handleChangeSelectAll: (type: string) => void;
 }
 
 const CheckboxOfAll = (props: CheckboxOfAllProps) => {
-	const { isSelectedPageOfAll, isSelectedAll, handleChangeSelectAll } = props;
+	const { isItemsEmpty, isError, isSelectedPageOfAll, isSelectedAll, handleChangeSelectAll } = props;
 	const { id, isOpen, anchorEl, handleOpen, handleClose } = usePopper({});
-	const [backgroundColor, setBackgroundColor] = useState('');
 	const [isChecked, setIsChecked] = useState(false);
 	const [isIndeterminate, setIsIndeterminate] = useState(false);
+	const backgroundColor = isOpen ? 'bg-checkbox-hover-bg' : '';
 
 	const handleChangeCheckbox = () => {
 		if (!isChecked && !isIndeterminate) {
@@ -54,14 +56,6 @@ const CheckboxOfAll = (props: CheckboxOfAllProps) => {
 	};
 
 	useEffect(() => {
-		if (isOpen) {
-			setBackgroundColor('bg-checkbox-hover-bg');
-		} else {
-			setBackgroundColor('');
-		}
-	}, [isOpen]);
-
-	useEffect(() => {
 		if (isSelectedPageOfAll && isSelectedAll) {
 			setIsChecked(true);
 			setIsIndeterminate(false);
@@ -69,6 +63,9 @@ const CheckboxOfAll = (props: CheckboxOfAllProps) => {
 			setIsChecked(false);
 			setIsIndeterminate(true);
 		} else if (!isSelectedPageOfAll && !isSelectedPageOfAll) {
+			setIsChecked(false);
+			setIsIndeterminate(false);
+		} else if (isItemsEmpty || isError) {
 			setIsChecked(false);
 			setIsIndeterminate(false);
 		}

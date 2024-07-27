@@ -2,7 +2,6 @@
 
 import React, { FC, useEffect, useState } from 'react';
 import { Panel, TableConfigs, FilterConfigs, Details, EditDialogContent, DeleteDialogContent } from './components';
-import { useAppContext } from '@/context/AppProvider';
 import {
 	ADD_CONTENT,
 	ADD_CONTENT_VALID_STATUS,
@@ -10,22 +9,35 @@ import {
 	EDIT_CONTENT,
 	EDIT_CONTENT_VALID_STATUS,
 	EDIT_CONTENT_VALID_RULES,
+	DELETE_CONTENT,
 } from '@/const/chartsDefinitions';
 import { ROW_ACTION_FUNC_PROPS } from '@/models/dataGrid';
 import { DeepCopy, FormValidCheck } from '@/utils';
-import { SnackbarProvider, enqueueSnackbar } from 'notistack';
-import { SnackbarMessage, DataGrid, CustomDialog } from '@/components';
+import { DataGrid, CustomDialog } from '@/components';
+import { useFetcher } from '@/hooks';
 
 interface ChartsDefinitionsProps {}
 
 const ChartsDefinitions: FC<ChartsDefinitionsProps> = () => {
 	const {
-		chartsDefinitionsData,
-		getChartsDefinitionsData,
-		addChartDefinitionsData,
-		chartsDefinitionsStatus,
-		initChartsDefinitionsStatus,
-	} = useAppContext();
+		resData: chartsDefinitionsData,
+		isLoading,
+		isError,
+		errorMessage,
+		refetch,
+		fetchData,
+	} = useFetcher({
+		url: '/chartsDefinitions',
+		initialData: [],
+	});
+
+	const { isLoading: isAddLoading, isError: isAddError, handleFetch: handleAddChartDefinitions } = useFetcher();
+	const { isLoading: isEditLoading, isError: isEditError, handleFetch: handleEditChartDefinitions } = useFetcher();
+	const {
+		isLoading: isDeleteLoading,
+		isError: isDeleteError,
+		handleFetch: handleDeleteChartDefinitions,
+	} = useFetcher();
 
 	const mainKey = 'id';
 	const [addContent, setAddContent] = useState(DeepCopy(ADD_CONTENT));
@@ -34,7 +46,7 @@ const ChartsDefinitions: FC<ChartsDefinitionsProps> = () => {
 	const [editContent, setEditContent] = useState(DeepCopy(EDIT_CONTENT));
 	const [editContentValidStatus, setEditContentValidStatus] = useState(EDIT_CONTENT_VALID_STATUS);
 	const [enableEditContent, setEnableEditContent] = useState(true);
-	const [isLoading, setIsLoading] = useState(true);
+	const [deleteContent, setDeleteContent] = useState(DeepCopy(DELETE_CONTENT));
 	const [selectedChartsDefinitions, setSelectedChartsDefinitions] = useState<any[]>([]);
 	const [isEditOpen, setIsEditOpen] = useState(false);
 	const [isDeleteOpen, setIsDeleteOpen] = useState(false);
@@ -48,7 +60,12 @@ const ChartsDefinitions: FC<ChartsDefinitionsProps> = () => {
 
 	const handleAddContentSubmit = () => {
 		if (checkAddContentEnable().isValid) {
-			addChartDefinitionsData(addContent);
+			handleAddChartDefinitions({
+				url: '/chartsDefinitions',
+				title: 'Charts Definitions',
+				method: 'POST',
+				data: addContent,
+			});
 		} else {
 			setEnableAddContent(false);
 			setAddContentValidStatus(checkAddContentEnable().validStatus);
@@ -98,7 +115,12 @@ const ChartsDefinitions: FC<ChartsDefinitionsProps> = () => {
 
 	const handleEditSubmit = () => {
 		if (checkEditContentEnable().isValid) {
-			// addChartDefinitionsData(addContent);
+			handleEditChartDefinitions({
+				url: `/chartsDefinitions/${editContent.id}`,
+				title: 'Charts Definitions',
+				method: 'PUT',
+				data: editContent,
+			});
 			setIsEditOpen(false);
 		} else {
 			setEnableEditContent(false);
@@ -107,13 +129,6 @@ const ChartsDefinitions: FC<ChartsDefinitionsProps> = () => {
 				setEnableEditContent(true);
 			}, 2000);
 		}
-	};
-
-	const onTextChangeEditContent = (field: string, value: string | number) => {
-		setEditContent((prev) => ({
-			...prev,
-			[field]: value,
-		}));
 	};
 
 	const checkEditContentEnable = () => {
@@ -125,14 +140,31 @@ const ChartsDefinitions: FC<ChartsDefinitionsProps> = () => {
 		return checkResult;
 	};
 
+	const onTextChangeEditContent = (field: string, value: string | number) => {
+		setEditContent((prev) => ({
+			...prev,
+			[field]: value,
+		}));
+	};
+
 	const handleDeleteClick = (props: ROW_ACTION_FUNC_PROPS) => {
 		const { item, handleCloseMenu } = props;
-		console.log('delete', item);
+
+		setDeleteContent({
+			id: item.id,
+			toolName: item.toolName,
+			chartName: item.chartName,
+		});
 		handleCloseMenu();
 		setIsDeleteOpen(true);
 	};
 
 	const handleDeleteSubmit = () => {
+		handleDeleteChartDefinitions({
+			url: `/chartsDefinitions/${deleteContent.id}`,
+			title: 'Charts Definitions',
+			method: 'DELETE',
+		});
 		setIsDeleteOpen(false);
 	};
 
@@ -140,84 +172,69 @@ const ChartsDefinitions: FC<ChartsDefinitionsProps> = () => {
 		setIsDeleteOpen(false);
 	};
 
-	// function generateRandomChartDefinition(index) {
-	// 	const toolNames = ['Tool1', 'Tool2', 'Tool3', 'AASD'];
-	// 	const chartNames = ['Chart1', 'Chart2', 'Chart3', 'Chart4', 'Chart5', 'Chart6', 'Chart7'];
-	// 	const yAxialTitles = ['y title', 'asd', 'ytitle', '123', 'y', 'qwd'];
-
-	// 	const randomElement = (array) => array[Math.floor(Math.random() * array.length)];
-
-	// 	return {
-	// 		id: String(Date.now() + index),
-	// 		toolName: randomElement(toolNames),
-	// 		chartName: randomElement(chartNames),
-	// 		yAxialTitle: randomElement(yAxialTitles),
-	// 		maxSpec: Math.floor(Math.random() * 100) + 1,
-	// 		minSpec: Math.floor(Math.random() * 100) + 1,
-	// 		target: Math.floor(Math.random() * 100) + 1,
-	// 		max: 100,
-	// 		min: 0,
-	// 		ticksSteps: 10,
-	// 		isShowLegend: true,
-	// 		chartTitleSize: 25,
-	// 		yTitleSize: 15,
-	// 		xLabelSize: 12,
-	// 		xSubLabelSize: 12,
-	// 		yLabelSize: 12,
-	// 		chartTitleWeight: 700,
-	// 		yTitleWeight: 700,
-	// 		xLabelWeight: 100,
-	// 		xSubLabelWeight: 100,
-	// 		yLabelWeight: 100,
-	// 		lineWidth: 2,
-	// 		pointRadius: 2,
-	// 		lineRadian: 0.01,
-	// 		xSubLabelAngle: 0,
-	// 		isShowXSubLabel: true,
-	// 		breakLine: [],
-	// 		createTime: Date.now(),
-	// 	};
-	// }
-
 	useEffect(() => {
-		getChartsDefinitionsData();
-		// const chartsDefinitions = Array.from({ length: 10000 }, (_, index) => generateRandomChartDefinition(index));
-		// const result = { chartsDefinitions };
-
-		// console.log(JSON.stringify(result, null, 2));
+		fetchData();
 	}, []);
 
 	useEffect(() => {
-		const { brief, title, method, description } = chartsDefinitionsStatus;
+		if (!isAddLoading && !isAddError) {
+			setAddContent(ADD_CONTENT);
+			refetch();
+		}
+	}, [isAddLoading]);
 
-		if (method === 'GET') {
-			if (brief === 'succeed') {
-				// console.log('chartsDefinitionsData', chartsDefinitionsData);
-				setIsLoading(false);
-				initChartsDefinitionsStatus();
-			}
+	useEffect(() => {
+		if (!isEditLoading && !isEditError) {
+			setEditContent(EDIT_CONTENT);
+			refetch();
 		}
-		if (method === 'ADD') {
-			if (brief === 'succeed') {
-				const message = <SnackbarMessage title={title} method={method} />;
-				enqueueSnackbar(message, {
-					variant: 'success',
-					autoHideDuration: 2000,
-				});
-				handleAddContentCancel();
-				initChartsDefinitionsStatus();
-			}
-			if (brief === 'failed') {
-				const message = <SnackbarMessage title={title} method={method} description={description} />;
-				enqueueSnackbar(message, {
-					variant: 'error',
-					autoHideDuration: 5000,
-				});
-				handleAddContentCancel();
-				initChartsDefinitionsStatus();
-			}
+	}, [isEditLoading]);
+
+	useEffect(() => {
+		if (!isDeleteLoading && !isDeleteError) {
+			setDeleteContent(DELETE_CONTENT);
+			refetch();
 		}
-	}, [chartsDefinitionsStatus.brief]);
+	}, [isDeleteLoading]);
+
+	// // function generateRandomChartDefinition(index) {
+	// // 	const toolNames = ['Tool1', 'Tool2', 'Tool3', 'AASD'];
+	// // 	const chartNames = ['Chart1', 'Chart2', 'Chart3', 'Chart4', 'Chart5', 'Chart6', 'Chart7'];
+	// // 	const yAxialTitles = ['y title', 'asd', 'ytitle', '123', 'y', 'qwd'];
+
+	// // 	const randomElement = (array) => array[Math.floor(Math.random() * array.length)];
+
+	// // 	return {
+	// // 		id: String(Date.now() + index),
+	// // 		toolName: randomElement(toolNames),
+	// // 		chartName: randomElement(chartNames),
+	// // 		yAxialTitle: randomElement(yAxialTitles),
+	// // 		maxSpec: Math.floor(Math.random() * 100) + 1,
+	// // 		minSpec: Math.floor(Math.random() * 100) + 1,
+	// // 		target: Math.floor(Math.random() * 100) + 1,
+	// // 		max: 100,
+	// // 		min: 0,
+	// // 		ticksSteps: 10,
+	// // 		isShowLegend: true,
+	// // 		chartTitleSize: 25,
+	// // 		yTitleSize: 15,
+	// // 		xLabelSize: 12,
+	// // 		xSubLabelSize: 12,
+	// // 		yLabelSize: 12,
+	// // 		chartTitleWeight: 700,
+	// // 		yTitleWeight: 700,
+	// // 		xLabelWeight: 100,
+	// // 		xSubLabelWeight: 100,
+	// // 		yLabelWeight: 100,
+	// // 		lineWidth: 2,
+	// // 		pointRadius: 2,
+	// // 		lineRadian: 0.01,
+	// // 		xSubLabelAngle: 0,
+	// // 		isShowXSubLabel: true,
+	// // 		breakLine: [],
+	// // 		createTime: Date.now(),
+	// // 	};
+	// // }
 
 	return (
 		<div className="h-full w-full flex justify-center items-center gap-5">
@@ -234,6 +251,8 @@ const ChartsDefinitions: FC<ChartsDefinitionsProps> = () => {
 			<div className="h-full w-2/3 bg-white rounded-xl p-5">
 				<DataGrid
 					isLoading={isLoading}
+					isError={isError}
+					errorStatus={errorMessage}
 					items={chartsDefinitionsData}
 					selectedItems={selectedChartsDefinitions}
 					mainKey={mainKey}
@@ -261,22 +280,7 @@ const ChartsDefinitions: FC<ChartsDefinitionsProps> = () => {
 						],
 					}}
 				/>
-				{/* <DataGrid
-					isLoading={isLoading}
-					data={chartsDefinitionsData}
-					tableFormat={TableFormat}
-					withChecked={true}
-					withSticky={true}
-				/> */}
 			</div>
-			<SnackbarProvider
-				maxSnack={3}
-				anchorOrigin={{
-					vertical: 'top',
-					horizontal: 'right',
-				}}
-				className="!p-4 !text-lg"
-			/>
 			<CustomDialog
 				isOpen={isEditOpen}
 				handleClose={handleEditClose}
@@ -297,8 +301,8 @@ const ChartsDefinitions: FC<ChartsDefinitionsProps> = () => {
 			<CustomDialog
 				isOpen={isDeleteOpen}
 				handleClose={handleDeleteClose}
-				title={`Delete`}
-				dialogContent={<DeleteDialogContent />}
+				title={`Delete ${deleteContent?.toolName}_${deleteContent.chartName}`}
+				dialogContent={<DeleteDialogContent deleteContent={deleteContent} />}
 				enableSubmit={true}
 				handleSubmit={handleDeleteSubmit}
 				submitText="Delete"

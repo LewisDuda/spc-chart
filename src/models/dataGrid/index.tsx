@@ -4,6 +4,8 @@ import { FILTER_CONFIG } from '@/models/filterConfig';
 
 export interface DATA_GRID {
 	isLoading: boolean;
+	isError: boolean;
+	errorStatus: any;
 	items: any[];
 	selectedItems: any[];
 	mainKey: string | number;

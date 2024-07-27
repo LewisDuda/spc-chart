@@ -37,7 +37,7 @@ const DataGridPagination = () => {
 				<MenuItem value={25}>25</MenuItem>
 			</Select>
 			<Pagination
-				count={Math.floor(items.length / itemsPerPage)}
+				count={Math.ceil(items.length / itemsPerPage)}
 				page={page}
 				onChange={handleChangePage}
 				size="large"

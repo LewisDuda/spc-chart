@@ -6,11 +6,14 @@ import { Order } from '@/models/dataGrid';
 import { TableProgress, ContextMenu } from '@/components';
 import { Row, CheckboxOfAll, RowMenuList } from './components';
 import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
+import WarningIcon from '@mui/icons-material/Warning';
 import { useDataGridContext } from '@/context/DataGridProvider';
 
 const DataGridTable = () => {
 	const {
 		isLoading,
+		isError,
+		errorStatus,
 		mainKey,
 		filteredItems: items,
 		itemsLookUpTable,
@@ -169,8 +172,10 @@ const DataGridTable = () => {
 							{isUseCheckbox && (
 								<TableCell>
 									<CheckboxOfAll
-										isSelectedAll={isSelectedAll}
-										isSelectedPageOfAll={isSelectedPageOfAll}
+										isError={isError}
+										isItemsEmpty={items.length === 0}
+										isSelectedAll={isSelectedAll && items.length !== 0}
+										isSelectedPageOfAll={isSelectedPageOfAll && items.length !== 0}
 										handleChangeSelectAll={handleChangeSelectAll}
 									/>
 								</TableCell>
@@ -218,15 +223,26 @@ const DataGridTable = () => {
 								</TableCell>
 							</TableRow>
 						)}
-						{visibleItems.map((item, index) => (
-							<Row
-								key={index}
-								item={item}
-								isSelected={selectedItems.some((selectItem) => selectItem === item[mainKey])}
-								handleSelect={handleSelectOneRow}
-								handleContextMenu={handleContextMenu}
-							/>
-						))}
+						{isError && (
+							<TableRow>
+								<TableCell colSpan={isUseCheckbox ? tableConfigs.length + 1 : tableConfigs.length}>
+									<div className="flex justify-center items-center gap-2 text-danger-background">
+										<WarningIcon />
+										<span className="font-bold">{`Fetch error status: ${errorStatus}`}</span>
+									</div>
+								</TableCell>
+							</TableRow>
+						)}
+						{!isError &&
+							visibleItems.map((item, index) => (
+								<Row
+									key={item[mainKey]}
+									item={item}
+									isSelected={selectedItems.some((selectItem) => selectItem === item[mainKey])}
+									handleSelect={handleSelectOneRow}
+									handleContextMenu={handleContextMenu}
+								/>
+							))}
 					</TableBody>
 				</Table>
 			</div>

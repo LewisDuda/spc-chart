@@ -3,6 +3,7 @@ import { Inter, Pixelify_Sans } from 'next/font/google';
 import './globals.css';
 import { Captain, Navigation } from '@/components';
 import { MAIN_HEIGHT, MAIN_WIDTH } from '@/const/layout';
+import { NotistackProvider } from '../context/NotistackProvider';
 import { AppProvider } from '@/context/AppProvider';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-latin' });
@@ -24,11 +25,20 @@ export default function RootLayout({
 				className={`${inter.variable} ${pixelify_sans.variable} h-screen w-screen flex flex-wrap bg-gray font-inter`}
 			>
 				<AppProvider>
-					<Captain />
-					<Navigation />
-					<main className="py-5 pr-5" style={{ height: MAIN_HEIGHT, width: MAIN_WIDTH }}>
-						{children}
-					</main>
+					<NotistackProvider
+						maxSnack={3}
+						anchorOrigin={{
+							vertical: 'top',
+							horizontal: 'right',
+						}}
+						className="!p-4 !text-lg"
+					>
+						<Captain />
+						<Navigation />
+						<main className="py-5 pr-5" style={{ height: MAIN_HEIGHT, width: MAIN_WIDTH }}>
+							{children}
+						</main>
+					</NotistackProvider>
 				</AppProvider>
 			</body>
 		</html>
