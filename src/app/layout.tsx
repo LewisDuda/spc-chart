@@ -3,7 +3,10 @@ import { Inter, Pixelify_Sans } from 'next/font/google';
 import './globals.css';
 import { Captain, Navigation } from '@/components';
 import { MAIN_HEIGHT, MAIN_WIDTH } from '@/const/layout';
+<<<<<<< HEAD
 import { NotistackProvider } from '../context/NotistackProvider';
+=======
+>>>>>>> 4f7f682 (chartsdefinitions table build except edit delete)
 import { AppProvider } from '@/context/AppProvider';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-latin' });
@@ -25,6 +28,7 @@ export default function RootLayout({
 				className={`${inter.variable} ${pixelify_sans.variable} h-screen w-screen flex flex-wrap bg-gray font-inter`}
 			>
 				<AppProvider>
+<<<<<<< HEAD
 					<NotistackProvider
 						maxSnack={3}
 						anchorOrigin={{
@@ -39,6 +43,13 @@ export default function RootLayout({
 							{children}
 						</main>
 					</NotistackProvider>
+=======
+					<Captain />
+					<Navigation />
+					<main className="py-5 pr-5" style={{ height: MAIN_HEIGHT, width: MAIN_WIDTH }}>
+						{children}
+					</main>
+>>>>>>> 4f7f682 (chartsdefinitions table build except edit delete)
 				</AppProvider>
 			</body>
 		</html>

@@ -4,8 +4,11 @@ import { FILTER_CONFIG } from '@/models/filterConfig';
 
 export interface DATA_GRID {
 	isLoading: boolean;
+<<<<<<< HEAD
 	isError: boolean;
 	errorStatus: any;
+=======
+>>>>>>> 4f7f682 (chartsdefinitions table build except edit delete)
 	items: any[];
 	selectedItems: any[];
 	mainKey: string | number;

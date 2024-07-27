@@ -6,14 +6,20 @@ import { Order } from '@/models/dataGrid';
 import { TableProgress, ContextMenu } from '@/components';
 import { Row, CheckboxOfAll, RowMenuList } from './components';
 import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
+<<<<<<< HEAD
 import WarningIcon from '@mui/icons-material/Warning';
+=======
+>>>>>>> 4f7f682 (chartsdefinitions table build except edit delete)
 import { useDataGridContext } from '@/context/DataGridProvider';
 
 const DataGridTable = () => {
 	const {
 		isLoading,
+<<<<<<< HEAD
 		isError,
 		errorStatus,
+=======
+>>>>>>> 4f7f682 (chartsdefinitions table build except edit delete)
 		mainKey,
 		filteredItems: items,
 		itemsLookUpTable,
@@ -172,10 +178,15 @@ const DataGridTable = () => {
 							{isUseCheckbox && (
 								<TableCell>
 									<CheckboxOfAll
+<<<<<<< HEAD
 										isError={isError}
 										isItemsEmpty={items.length === 0}
 										isSelectedAll={isSelectedAll && items.length !== 0}
 										isSelectedPageOfAll={isSelectedPageOfAll && items.length !== 0}
+=======
+										isSelectedAll={isSelectedAll}
+										isSelectedPageOfAll={isSelectedPageOfAll}
+>>>>>>> 4f7f682 (chartsdefinitions table build except edit delete)
 										handleChangeSelectAll={handleChangeSelectAll}
 									/>
 								</TableCell>
@@ -223,6 +234,7 @@ const DataGridTable = () => {
 								</TableCell>
 							</TableRow>
 						)}
+<<<<<<< HEAD
 						{isError && (
 							<TableRow>
 								<TableCell colSpan={isUseCheckbox ? tableConfigs.length + 1 : tableConfigs.length}>
@@ -243,6 +255,17 @@ const DataGridTable = () => {
 									handleContextMenu={handleContextMenu}
 								/>
 							))}
+=======
+						{visibleItems.map((item, index) => (
+							<Row
+								key={index}
+								item={item}
+								isSelected={selectedItems.some((selectItem) => selectItem === item[mainKey])}
+								handleSelect={handleSelectOneRow}
+								handleContextMenu={handleContextMenu}
+							/>
+						))}
+>>>>>>> 4f7f682 (chartsdefinitions table build except edit delete)
 					</TableBody>
 				</Table>
 			</div>

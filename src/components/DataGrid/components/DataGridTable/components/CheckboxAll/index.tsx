@@ -7,19 +7,30 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { usePopper } from '@/hooks';
 
 interface CheckboxOfAllProps {
+<<<<<<< HEAD
 	isItemsEmpty: boolean;
 	isError: boolean;
+=======
+>>>>>>> 4f7f682 (chartsdefinitions table build except edit delete)
 	isSelectedPageOfAll: boolean;
 	isSelectedAll: boolean;
 	handleChangeSelectAll: (type: string) => void;
 }
 
 const CheckboxOfAll = (props: CheckboxOfAllProps) => {
+<<<<<<< HEAD
 	const { isItemsEmpty, isError, isSelectedPageOfAll, isSelectedAll, handleChangeSelectAll } = props;
 	const { id, isOpen, anchorEl, handleOpen, handleClose } = usePopper({});
 	const [isChecked, setIsChecked] = useState(false);
 	const [isIndeterminate, setIsIndeterminate] = useState(false);
 	const backgroundColor = isOpen ? 'bg-checkbox-hover-bg' : '';
+=======
+	const { isSelectedPageOfAll, isSelectedAll, handleChangeSelectAll } = props;
+	const { id, isOpen, anchorEl, handleOpen, handleClose } = usePopper({});
+	const [backgroundColor, setBackgroundColor] = useState('');
+	const [isChecked, setIsChecked] = useState(false);
+	const [isIndeterminate, setIsIndeterminate] = useState(false);
+>>>>>>> 4f7f682 (chartsdefinitions table build except edit delete)
 
 	const handleChangeCheckbox = () => {
 		if (!isChecked && !isIndeterminate) {
@@ -56,6 +67,17 @@ const CheckboxOfAll = (props: CheckboxOfAllProps) => {
 	};
 
 	useEffect(() => {
+<<<<<<< HEAD
+=======
+		if (isOpen) {
+			setBackgroundColor('bg-checkbox-hover-bg');
+		} else {
+			setBackgroundColor('');
+		}
+	}, [isOpen]);
+
+	useEffect(() => {
+>>>>>>> 4f7f682 (chartsdefinitions table build except edit delete)
 		if (isSelectedPageOfAll && isSelectedAll) {
 			setIsChecked(true);
 			setIsIndeterminate(false);
@@ -65,9 +87,12 @@ const CheckboxOfAll = (props: CheckboxOfAllProps) => {
 		} else if (!isSelectedPageOfAll && !isSelectedPageOfAll) {
 			setIsChecked(false);
 			setIsIndeterminate(false);
+<<<<<<< HEAD
 		} else if (isItemsEmpty || isError) {
 			setIsChecked(false);
 			setIsIndeterminate(false);
+=======
+>>>>>>> 4f7f682 (chartsdefinitions table build except edit delete)
 		}
 	}, [isSelectedPageOfAll, isSelectedAll]);
 

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { DELETE_CONTENT_INTERFACE } from '@/models/chartsDefinitions';
 import React from 'react';
 
@@ -19,6 +20,12 @@ const DeleteDialogContent = (props: EditDialogContentProps) => {
 			</h1>
 		</div>
 	);
+=======
+import React from 'react';
+
+const DeleteDialogContent = () => {
+	return <>Delete Dialog Content</>;
+>>>>>>> 4f7f682 (chartsdefinitions table build except edit delete)
 };
 
 export default DeleteDialogContent;
