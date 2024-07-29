@@ -1,10 +1,6 @@
 'use client';
 
-<<<<<<< HEAD
 import React, { createContext, useContext, useState, useEffect, ReactNode, ReactElement, useMemo } from 'react';
-=======
-import React, { createContext, useContext, useState, useEffect, useRef, ReactNode, ReactElement, useMemo } from 'react';
->>>>>>> 4f7f682 (chartsdefinitions table build except edit delete)
 import { TABLE_CONFIG } from '@/models/tableConfig';
 import { DATA_GRID, IS_USE_LOOK_UP_TABLE, DATA_GRID_TABLE_ACTION } from '@/models/dataGrid';
 import { FILTER_CONDITIONS } from '@/models/filterConditions';
@@ -21,11 +17,8 @@ interface DataGridProvider {
 interface DataGridContextProps {
 	isMounted: boolean;
 	isLoading: boolean;
-<<<<<<< HEAD
 	isError: boolean;
 	errorStatus: any;
-=======
->>>>>>> 4f7f682 (chartsdefinitions table build except edit delete)
 	items: any[];
 	mainKey: string | number;
 	isUseLookUpTable: IS_USE_LOOK_UP_TABLE;
@@ -53,12 +46,8 @@ interface DataGridContextProps {
 export const DataGridContext = createContext<DataGridContextProps | undefined>(undefined);
 
 export const DataGridProvider = ({ children, props }: DataGridProvider) => {
-<<<<<<< HEAD
 	const { isLoading, isError, errorStatus, items, selectedItems, mainKey, toolbar, toolbarSlots, table, pagination } =
 		props;
-=======
-	const { isLoading, items, selectedItems, mainKey, toolbar, toolbarSlots, table, pagination } = props;
->>>>>>> 4f7f682 (chartsdefinitions table build except edit delete)
 	const {
 		configs: tableConfigs,
 		onSelect,
@@ -93,10 +82,6 @@ export const DataGridProvider = ({ children, props }: DataGridProvider) => {
 	}, {});
 
 	const [isMounted, setIsMounted] = useState(false);
-<<<<<<< HEAD
-=======
-	const [itemsLookUpTable, setItemsLookUpTable] = useState<{ [key: string]: any }>({});
->>>>>>> 4f7f682 (chartsdefinitions table build except edit delete)
 	const [tableConfigsIsShow, setTableConfigIsShow] = useState<string[]>([]);
 	const [filterConditions, setFilterConditions] = useState<FILTER_CONDITIONS>({ logic: 'and', conditions: [] });
 	const [page, setPage] = useState(1);
@@ -119,18 +104,6 @@ export const DataGridProvider = ({ children, props }: DataGridProvider) => {
 		); // Use is undefined to check if a matching config isFound
 	};
 
-<<<<<<< HEAD
-=======
-	const itemsArrayToSet = () => {
-		const result = items.reduce((index, item) => {
-			index[item[mainKey]] = item;
-			return index;
-		}, {});
-
-		return result;
-	};
-
->>>>>>> 4f7f682 (chartsdefinitions table build except edit delete)
 	const updateFilterConditions = (newFilterConditions: FILTER_CONDITIONS) => {
 		setFilterConditions((prev) => ({
 			...prev,
@@ -162,7 +135,6 @@ export const DataGridProvider = ({ children, props }: DataGridProvider) => {
 		return tableConfigs.filter((config) => handleFilterTableConfigs(config));
 	}, [tableConfigs, tableConfigsIsShow]);
 
-<<<<<<< HEAD
 	const itemsLookUpTable = useMemo(() => {
 		return items.reduce((index, item) => {
 			index[item[mainKey]] = item;
@@ -174,8 +146,6 @@ export const DataGridProvider = ({ children, props }: DataGridProvider) => {
 		return handleFilterItems().map((mainKey: string | number) => itemsLookUpTable[mainKey]);
 	}, [itemsLookUpTable, filterConditions]);
 
-=======
->>>>>>> 4f7f682 (chartsdefinitions table build except edit delete)
 	useEffect(() => {
 		const tableConfigsIsShow = tableConfigs.reduce((acc, config) => {
 			if (config.isShow) {
@@ -183,12 +153,7 @@ export const DataGridProvider = ({ children, props }: DataGridProvider) => {
 			}
 			return acc;
 		}, [] as string[]);
-<<<<<<< HEAD
 		setTableConfigIsShow(tableConfigsIsShow);
-=======
-
-		const itemsLookUpTable = itemsArrayToSet();
->>>>>>> 4f7f682 (chartsdefinitions table build except edit delete)
 
 		if (filters) {
 			const { configs: filterConfigs } = filters;
@@ -196,7 +161,6 @@ export const DataGridProvider = ({ children, props }: DataGridProvider) => {
 
 			updateFilterConditions(updatedFilterConditions);
 		}
-<<<<<<< HEAD
 		setIsMounted(true);
 	}, []);
 
@@ -205,22 +169,6 @@ export const DataGridProvider = ({ children, props }: DataGridProvider) => {
 		isLoading,
 		isError,
 		errorStatus,
-=======
-
-		setTableConfigIsShow(tableConfigsIsShow);
-		setItemsLookUpTable(itemsLookUpTable);
-		setIsMounted(true);
-	}, []);
-
-	const filteredItems = useMemo(() => {
-		const itemsLookUpTable = itemsArrayToSet();
-		return handleFilterItems().map((mainKey: string | number) => itemsLookUpTable[mainKey]);
-	}, [items, filterConditions]);
-
-	const value: DataGridContextProps = {
-		isMounted,
-		isLoading,
->>>>>>> 4f7f682 (chartsdefinitions table build except edit delete)
 		items,
 		mainKey,
 		isUseLookUpTable,

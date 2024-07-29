@@ -16,12 +16,9 @@ export interface EDIT_CONTENT_INTERFACE {
 	minSpec: number | string;
 	target: number | string;
 }
-<<<<<<< HEAD
 
 export interface DELETE_CONTENT_INTERFACE {
 	id: string;
 	toolName: string;
 	chartName: string;
 }
-=======
->>>>>>> 4f7f682 (chartsdefinitions table build except edit delete)

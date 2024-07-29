@@ -1,9 +1,5 @@
 import { GenerateValidContent, NormalRequiredFieldRule } from '@/utils';
-<<<<<<< HEAD
 import { ADD_CONTENT_INTERFACE, DELETE_CONTENT_INTERFACE, EDIT_CONTENT_INTERFACE } from '@/models/chartsDefinitions';
-=======
-import { ADD_CONTENT_INTERFACE, EDIT_CONTENT_INTERFACE } from '@/models/chartsDefinitions';
->>>>>>> 4f7f682 (chartsdefinitions table build except edit delete)
 
 const ADD_CONTENT: ADD_CONTENT_INTERFACE = {
 	toolName: '',
@@ -142,15 +138,12 @@ const EDIT_CONTENT_VALID_RULES = [
 	},
 ];
 
-<<<<<<< HEAD
 const DELETE_CONTENT: DELETE_CONTENT_INTERFACE = {
 	id: '',
 	toolName: '',
 	chartName: '',
 };
 
-=======
->>>>>>> 4f7f682 (chartsdefinitions table build except edit delete)
 export {
 	ADD_CONTENT,
 	ADD_CONTENT_VALID_STATUS,
@@ -158,8 +151,5 @@ export {
 	EDIT_CONTENT,
 	EDIT_CONTENT_VALID_STATUS,
 	EDIT_CONTENT_VALID_RULES,
-<<<<<<< HEAD
 	DELETE_CONTENT,
-=======
->>>>>>> 4f7f682 (chartsdefinitions table build except edit delete)
 };
